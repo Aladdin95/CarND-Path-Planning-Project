@@ -137,7 +137,8 @@ int main() {
            * TODO: define a path made up of (x,y) points that the car will visit
            *   sequentially every .02 seconds
            */
-          
+          double max_vel = 49.5;
+          int old_lane = lane;
           if(front_close)
           {
             if(lane == 0) // only changing lane to right is possible
@@ -183,6 +184,7 @@ int main() {
               }
             }
           }
+          if(old_lane != lane) {max_vel = 40; decrease_speed = true;}
           
           double ref_x = car_x;
           double ref_y = car_y;
@@ -273,7 +275,7 @@ int main() {
 
           for (int i = 1; i <= 50-prev_size; ++i) {
             if(decrease_speed) ref_vel -= .224;
-            else if(ref_vel < 49.5) ref_vel += .224;
+            else if(ref_vel < max_vel) ref_vel += .112;
             double N = target_dist/(0.02*ref_vel/2.24);
             double x_point = x_add_on + target_x/N;
             double y_point = s(x_point);
